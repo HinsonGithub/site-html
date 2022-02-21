@@ -1,0 +1,11 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: Reckoner_Bold
+font link: http://alexdale.com.au/work/reckoner-typeface/
+font author: Alex Dale
+font author site: https://www.behance.net/alexiandale
+
+
+{"bg":"#FBF3EF","icon-gradient-0":"#A92580","icon-gradient-1":"#F7BC00","font":"#2F190E","slogan":"#432d22"}
+      
