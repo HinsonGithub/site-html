@@ -1,0 +1,27 @@
+{
+  "short_name": "提詞器Pro",
+  "name": "提詞器Pro",
+  "description": "使用我們的提詞器Pro能夠直接在您的PC、Mac、平板電腦或智能手機上提示文本。 無需安裝，無使用限制。",
+  "icons": [
+    {
+      "src": "img/maskable_icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icons-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/icons-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#f6f9fc",
+  "display": "standalone",
+  "theme_color": "#0d0d0d"
+}

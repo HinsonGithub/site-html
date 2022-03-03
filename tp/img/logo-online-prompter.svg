@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1.23916,0,0,1.23916,-76.4448,-125.758)">
+        <g transform="matrix(1,0,0,1,20.648,7.94155)">
+            <g transform="matrix(1,0,0,1,-30.972,0)">
+                <rect x="239.186" y="232.133" width="461.906" height="361.881"/>
+            </g>
+            <g transform="matrix(1,0,0,0.315309,-30.972,282.828)">
+                <rect x="239.186" y="232.133" width="461.906" height="361.881" style="fill:white;fill-opacity:0.15;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.31377,0,0,1.31377,-93.8136,-297.155)">
+            <text x="280.66px" y="476.911px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:28.544px;fill:white;">Lorem ipsum dolor sit</text>
+            <text x="280.66px" y="506.388px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:28.544px;fill:white;">amet, consetetur</text>
+            <text x="280.66px" y="535.866px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:28.544px;fill:white;">sadipscing elitr<tspan x="467.881px " y="535.866px ">,</tspan></text>
+            <text x="280.66px" y="565.344px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:28.544px;fill:white;">sed diam nonumy</text>
+            <text x="280.66px" y="594.821px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:28.544px;fill:white;">eirmod tempor invidunt</text>
+            <text x="280.66px" y="624.299px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:28.544px;fill:white;">ut labore et dolore</text>
+            <text x="280.66px" y="653.777px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:28.544px;fill:white;">magna aliquyam erat,</text>
+            <text x="280.66px" y="683.254px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:28.544px;fill:white;">sed diam voluptua.</text>
+            <text x="280.66px" y="712.732px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:28.544px;fill:white;">At vero eos et accusam</text>
+        </g>
+        <g id="path4147" transform="matrix(1,0,0,1,156.021,162.011)">
+            <path d="M125.799,683.711C125.03,682.48 120.767,675.286 116.325,667.724L108.249,653.974L516.296,653.974L514.187,657.724C513.027,659.786 508.836,666.874 504.873,673.474L497.668,685.474L312.433,685.711L127.197,685.948L125.799,683.711ZM36.168,631.045L36.168,616.116L60.918,582.588L85.668,549.059L264.168,548.973L264.168,510.973L361.168,510.973L361.168,548.973L538.856,548.973L588.094,615.473L588.168,645.973L36.168,645.973L36.168,631.045L36.168,631.045ZM237.168,497.474L237.168,491.974L161.418,491.94C119.756,491.922 82.397,491.718 78.4,491.487C65.051,490.719 54.691,484.025 50.034,473.16C48.818,470.323 47.547,463.723 46.778,456.248C46.084,449.505 45.245,443.717 44.913,443.384C44.581,443.052 42.284,444.174 39.808,445.877C37.333,447.58 34.404,448.973 33.299,448.973C30.729,448.973 18.186,263.248 12.174,174.973C6.162,86.698 -24.356,50.384 25.143,21.222C74.642,-7.94 618.336,0 618.336,0C618.336,0 587.878,442.386 587.583,444.723C586.912,450.031 584.932,450.283 578.528,445.877C576.053,444.174 573.756,443.052 573.424,443.384C573.091,443.717 572.252,449.505 571.558,456.248C570.789,463.723 569.519,470.323 568.303,473.16C564.243,482.631 556.09,488.891 545.061,491.004C541.774,491.634 520.929,492.005 491.668,491.954C465.268,491.908 430.956,491.893 415.418,491.922L387.168,491.973L387.168,502.973L237.168,502.973L237.168,497.473L237.168,497.474ZM515.862,399.56L518.668,397.147L518.928,245.493L519.187,93.839L513.322,87.974L105.014,87.974L102.091,90.897L99.168,93.82L99.168,243.946C99.168,407.132 98.884,398.712 104.47,400.962C105.718,401.464 194.489,401.874 309.862,401.91L513.057,401.974L515.862,399.56L515.862,399.56Z" style="fill:rgb(35,81,61);fill-rule:nonzero;stroke:black;stroke-width:15.15px;"/>
+        </g>
+    </g>
+</svg>
