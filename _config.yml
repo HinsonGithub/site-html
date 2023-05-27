@@ -2,7 +2,3 @@ theme: jekyll-theme-minimal
 title: Hinson_Site's coming soon page.
 description: Bookmark this to keep an eye on my project updates! 
 avatar: "https://www.xdar.gq/favicon.ico?show_file=ico"
-plugins:
-- jekyll-sitemap
-gem install jekyll-sitemap
-bundle exec jekyll serve
