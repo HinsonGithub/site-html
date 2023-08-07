@@ -11,5 +11,15 @@
 	<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-messaging.js"></script>
 	<script src="firebase.js"></script>
+	<script>messaging.onMessage((payload) => {
+  console.log('Message received. ', payload);
+  const notification = payload.notification;
+  const notificationTitle = notification.title;
+  const notificationOptions = {
+    body: notification.body,
+    icon: notification.icon
+  };
+  new Notification(notificationTitle, notificationOptions);
+});</script>
 </body>
 </html>
