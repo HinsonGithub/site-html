@@ -2,6 +2,29 @@
 <html>
 <head>
 	<title>Notification Website</title>
+	<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDAYPgOfnD2-suQY1rZ6pzWJ8hTK10aT8w",
+    authDomain: "notification-974ba.firebaseapp.com",
+    projectId: "notification-974ba",
+    storageBucket: "notification-974ba.appspot.com",
+    messagingSenderId: "128483122473",
+    appId: "1:128483122473:web:c7bfe4b974ea81a1cc6b38",
+    measurementId: "G-3V10W3FCQ2"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 </head>
 <body>
 	<h1>Welcome to the Notification Website</h1>
