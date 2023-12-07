@@ -41,10 +41,3 @@ document.getElementById('updateCargoForm').addEventListener('submit', function(e
   // 範例中只是簡單的 Log 輸出
   console.log(`更新貨物 ${updateCargoId} 狀態為 ${newStatus}`);
 });
-  function showPopup(id) {
-    document.getElementById(id).style.display = 'block';
-  });
-
-  function hidePopup(id) {
-    document.getElementById(id).style.display = 'none';
-  });
