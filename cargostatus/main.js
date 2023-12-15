@@ -15,6 +15,7 @@ function checkCargo() {
     "cancel" : "訂單已取消",
     "wait" : "正在等待賣家回應（審核中）",
     "XdBx" : "已完成|收據已發",
+    "test" : "test",
     // 更多貨物狀態資料...
   };
 
