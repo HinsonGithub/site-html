@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 1.2em;
+            margin-bottom: 0.6em;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">Loading...</div>
+    
+    <!-- Include Showdown from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+    <script>
+        // Function to fetch and render markdown content
+        async function renderMarkdown(filePath) {
+            try {
+                const response = await fetch(filePath);
+                const markdown = await response.text();
+                const converter = new showdown.Converter();
+                const html = converter.makeHtml(markdown);
+                document.getElementById('content').innerHTML = html;
+            } catch (error) {
+                document.getElementById('content').innerHTML = 'Error loading Markdown file.';
+            }
+        }
+
+        // Get the file path from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const filePath = urlParams.get('path');
+
+        // Render the markdown content
+        if (filePath) {
+            renderMarkdown(filePath);
+        } else {
+            document.getElementById('content').innerHTML = 'No file path specified.';
+        }
+    </script>
+</body>
+</html>
