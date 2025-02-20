@@ -51,6 +51,29 @@ body, html {
     min-height: 400px;
   }
 }
+	<!-- Overlay -->
+	#overlay {
+  position: fixed;
+  display: block; /* Changed from 'none' to 'block' */
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  cursor: pointer;
+}
+	#oltext{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 50px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
 </style>
 <body>
 
@@ -243,6 +266,10 @@ body, html {
 	<p>Certain information may be exaggerated. 某些資訊有可能有誇大成分。</p>
 	<p>This website is using cookies and a template by w3.css. 本網站使用 cookie 和 w3.css 的模板。</p>
 </footer>
+	<!-- overlay text-->
+<div id="overlay" onclick="off()">
+  <div id="oltext">Site updating, click anyhwere to close this popup</div>
+</div>
  
 <script>
 // Modal Image Gallery
@@ -274,6 +301,17 @@ function toggleFunction() {
     }
 }
 </script>
+	<!-- Overlay -->
+	<script>
+function on() {
+  document.getElementById("overlay").style.display = "block";
+}
+
+function off() {
+  document.getElementById("overlay").style.display = "none";
+}
+</script>
+   
 
 </body>
 </html>
