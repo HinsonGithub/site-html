@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home --> Hinson Official Website</title>
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+  <!-- 桌面導覽 -->
+  <nav id="desktop-nav">
+    <div class="logo">Hinson</div>
+    <ul class="nav-links">
+      <li><a href="#about">關於我</a></li>
+      <li><a href="#experience">經歷</a></li>
+      <li><a href="#projects">作品</a></li>
+      <li><a href="#contact">聯絡</a></li>
+    </ul>
+  </nav>
+
+  <!-- 漢堡導覽 (手機版) -->
+  <nav id="hamburger-nav">
+    <div class="logo">
+      <img src="https://www.hins.one/resources/img/Hinson-logo/cover.png" alt="Logo" />
+    </div>
+    <div class="hamburger-menu">
+      <div class="hamburger-icon" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="menu-links">
+        <li><a href="#about" onclick="toggleMenu()">關於我</a></li>
+        <li><a href="#experience" onclick="toggleMenu()">經歷</a></li>
+        <li><a href="#projects" onclick="toggleMenu()">作品</a></li>
+        <li><a href="#contact" onclick="toggleMenu()">聯絡</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero 區塊 -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="profile-photo"><img src="./assets/profile-pic.jpeg" width="75%" height="75%"></div>
+      <div class="hero-text">
+        <h1>Hinson Chu</h1>
+        <h2>
+          <a href="https://www.youtube.com/@hinsonyt" target="_blank">Founder of @hinsonyt</a>
+          &nbsp;|&nbsp;
+          <a href="https://web.hinsonx.ru" target="_blank">Founder of Hinson Web Services</a>
+        </h2>
+        <p>70 小時程式學習、100+ 小時實作，並曾協助公司打造網站 (因 NDA 無法透露公司名稱)。</p>
+        <div class="btn-container">
+          <button class="btn" onclick="window.open('./assets/resume-example.pdf')">下載履歷</button>
+          <button class="btn" onclick="location.href='#contact'">聯絡我</button>
+        </div>
+        <div class="socials">
+          <a href="https://www.youtube.com/@hinsonyt" target="_blank">
+            <img src="./assets/youtube.png" alt="YouTube" />
+          </a>
+          <a href="https://www.instagram.com/hinson.ig" target="_blank">
+            <img src="./assets/instagram.png" alt="Instagram" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About 區塊 -->
+  <section id="about">
+    <h1>關於我</h1>
+    <p>
+      我精通 HTML, CSS, JavaScript、後端、MICROSOFT ACCESS、SQL DB 及 JSON。
+      累積了 70 小時的程式學習與 100+ 小時的實作經驗。
+    </p>
+  </section>
+
+  <!-- Experience 區塊 -->
+  <section id="experience">
+    <h1>經歷</h1>
+    <p>
+      我曾協助一家公司打造網站（因 NDA 無法透露公司名稱），同時累積了豐富的前後端經驗。
+    </p>
+    <div class="experience-container">
+      <div class="experience-box">
+        <h2>前端開發</h2>
+        <p>
+          累積 70 小時程式學習與 100+ 小時實作經驗，熟悉 HTML、CSS 與 JavaScript 技術。
+        </p>
+      </div>
+      <div class="experience-box">
+        <h2>後端與資料庫</h2>
+        <p>
+          熟悉 MICROSOFT ACCESS、SQL DB 與 JSON 等後端技術，具備完整的資料庫應用能力。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects 區塊 -->
+  <section id="projects">
+    <h1>作品</h1>
+    <p>以下是我近期的專案展示。</p>
+    <div class="projects-container">
+      <div class="project-box">
+        <img src="./assets/project-quizzer.png" alt="Quizzer 專案" />
+        <h2>Quizzer</h2>
+        <p>
+          Quizzer 是一款用於準備考試的應用程式。<br>
+          <a href="https://www.hinsonx.ru/quiz" target="_blank">Live Preview</a>
+        </p>
+      </div>
+      <div class="project-box">
+        <img src="./assets/project-mdviewer.png" alt="Markdown Viewer" />
+        <h2>Markdown Viewer</h2>
+        <p>
+          Markdown Viewer 獲得 5/5 星評價（根據使用者回覆）。<br>
+          <a href="/tools/md?path=https://gist.githubusercontent.com/allysonsilva/85fff14a22bbdf55485be947566cc09e/raw/fa8048a906ebed3c445d08b20c9173afd1b4a1e5/Full-Markdown.md" target="_blank">Live Preview</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact 區塊 -->
+  <section id="contact">
+    <h1>聯絡我</h1>
+    <div class="contact-container">
+      <div class="contact-info">
+        <img src="./assets/email.png" alt="Email" />
+        <p><a href="mailto:me@hins.one">me@hins.one</a></p>
+      </div>
+      <div class="contact-info">
+        <img src="./assets/youtube.png" alt="YouTube" />
+        <p><a href="./https://www.youtube.com/@hinsonyt" target="_blank">@hinsonyt</a></p>
+      </div>
+      <div class="contact-info">
+        <img src="./assets/instagram.png" alt="Instagram" />
+        <p><a href="https://www.instagram.com/hinson.ig" target="_blank">@hinson.ig</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-nav">
+      <a href="#about">關於我</a>
+      <a href="#experience">經歷</a>
+      <a href="#projects">作品</a>
+      <a href="#contact">聯絡</a>
+    </div>
+    <p>Copyright © 2023 Hinson Chu. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.querySelector('.menu-links');
+      menu.classList.toggle('open');
+      document.querySelector('.hamburger-icon').classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
