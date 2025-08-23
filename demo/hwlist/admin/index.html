@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理員主頁面</title>
+    <style>
+        /* --- 全局和通用样式 --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .page-container {
+            max-width: 400px;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .site-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .site-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .site-header p {
+            font-size: 1.1em;
+            color: #555;
+            margin: 5px 0 0;
+        }
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 0.8em;
+            margin-top: 20px;
+        }
+        .main-page .welcome-text {
+            font-size: 1.2em;
+        }
+        .main-page .welcome-text a {
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+        .main-page .homework-date {
+            font-size: 1em;
+            color: #333;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .homework-image-section {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .image-placeholder {
+            flex-grow: 1;
+            height: 200px;
+            background: linear-gradient(to bottom, #d4eeff 60%, #a8d08d 40%);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 10px;
+            color: #333;
+        }
+        .image-placeholder .cloud {
+            width: 80px;
+            height: 40px;
+            background-color: white;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .image-placeholder .cloud::before,
+        .image-placeholder .cloud::after {
+            content: '';
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+        }
+        .image-placeholder .cloud::before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 10px;
+        }
+        .image-placeholder .cloud::after {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            right: 5px;
+        }
+        .image-placeholder .image-text {
+            margin-top: 15px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+        .admin-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.9em;
+            color: #444;
+        }
+        .admin-controls a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .admin-controls .status {
+            font-size: 0.8em;
+            color: #555;
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .discussion-section {
+            background-color: #f0f0f0;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .discussion-section h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        .discussion-section .admin-dm-text {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            cursor: pointer; /* 新增：讓滑鼠指標變為手形 */
+        }
+        /* 新增：為可點擊區域增加懸停效果 */
+        .discussion-section h2:hover,
+        .discussion-section .admin-dm-text:hover {
+            text-decoration: underline;
+        }
+        .comment {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .comment:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .comment .user-info {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .comment .timestamp {
+            font-size: 0.8em;
+            color: #777;
+        }
+        .comment p {
+            margin: 5px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container main-page">
+        <header class="site-header">
+            <h1>Site Name</h1>
+        </header>
+
+        <main>
+            <p class="welcome-text">Welcome back, AdminK<a href="../settings/admin.html">[Settings]</a></p>
+            <p class="homework-date">Today's Homework list: <br>2025/08/01 (click me to select another)</p>
+            
+            <div class="homework-image-section">
+                <div class="image-placeholder">
+                    <div class="cloud"></div>
+                    <div class="image-text">
+                        Example photo of 20250801<br>
+                        SOURCE: CLOUDFLARE R2 DATABASE
+                    </div>
+                </div>
+                <div class="admin-controls">
+                    <a href="#">[Delete this]</a>
+                    <a href="#">[Re-upload]</a>
+                    <div class="status">
+                        COMPRESSING...45%<br>
+                        COMPRESSED...<br>
+                        UPLOADING TO R2 DONE. REFRESH TO SEE CHANGE
+                    </div>
+                </div>
+            </div>
+
+            <section class="discussion-section">
+                <h2 id="discuss-link">Discuss(click to discuss page)</h2>
+                <p id="dm-link" class="admin-dm-text">Or ADMIN ONLY DM</p>
+                <div class="comment">
+                    <span class="user-info">User2</span>
+                    <span class="timestamp">Created on 20250801 1700</span>
+                    <p>Good Day Guys</p>
+                </div>
+                <div class="comment">
+                    <span class="user-info">AdminK</span>
+                    <span class="timestamp">Created on 20250801 1659</span>
+                    <p>Be polite, otherwise comment will be deleted.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            Copyright 2025 HWS, ALL RIGHTS RESERVED<br>
+            Page Main Admin
+        </footer>
+    </div>
+
+    <script>
+        // 等待 HTML 頁面完全載入後再執行
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 獲取 "Discuss" 標題元素
+            const discussLink = document.getElementById('discuss-link');
+            
+            // 獲取 "ADMIN ONLY DM" 文字元素
+            const dmLink = document.getElementById('dm-link');
+
+            // 為 "Discuss" 標題添加點擊事件
+            discussLink.addEventListener('click', function() {
+                // 跳轉到 ../discuss/admin.html
+                window.location.href = '../discuss/admin.html';
+            });
+
+            // 為 "ADMIN ONLY DM" 文字添加點擊事件
+            dmLink.addEventListener('click', function() {
+                // 跳轉到 ../discuss/userdm.html
+                window.location.href = '../discuss/dm.html';
+            });
+
+        });
+    </script>
+
+</body>
+</html>

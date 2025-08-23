@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discuss User (Interactive)</title>
+    <style>
+        /* --- 通用樣式 --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .page-container {
+            max-width: 400px;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .site-header {
+            margin-bottom: 20px;
+        }
+        .site-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-align: center;
+        }
+        .site-header h2 {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+        .welcome-info {
+            font-size: 1em;
+            color: #555;
+        }
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 0.8em;
+            margin-top: 20px;
+        }
+
+        /* --- 聊天/討論區樣式 --- */
+        .chat-container {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 15px;
+            /* 新增：讓聊天室可以滾動 */
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .message {
+            margin-bottom: 15px;
+        }
+        .message-header {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .message-meta {
+            font-size: 0.8em;
+            color: #777;
+        }
+        .message-body {
+            margin: 5px 0 0;
+            font-size: 1em;
+            line-height: 1.4;
+            white-space: pre-wrap; /* 讓訊息可以換行 */
+            word-wrap: break-word;
+        }
+        .deleted-message .message-body {
+            color: #d9534f;
+            font-style: italic;
+        }
+
+        /* 修改：DM 選項樣式 */
+        .dm-option {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .dm-option input {
+            margin-right: 5px;
+        }
+
+        /* 修改：聊天輸入框的樣式 */
+        .chat-input-bar {
+            background-color: #1ed760;
+            border-radius: 25px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            padding: 5px 5px 5px 20px; /* 調整內距 */
+        }
+        #message-input {
+            flex-grow: 1; /* 佔滿剩餘空間 */
+            border: none;
+            background: transparent; /* 透明背景 */
+            color: white;
+            font-size: 1em;
+            outline: none; /* 移除點擊時的外框 */
+        }
+        #message-input::placeholder {
+            color: rgba(255, 255, 255, 0.8); /* 半透明的提示文字 */
+        }
+        .send-btn {
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 10px;
+        }
+        .send-icon-plane {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 14px 14px 14px; /* 調整大小 */
+            border-color: transparent transparent #1ed760 transparent;
+            transform: rotate(45deg) translate(-3px, 3px);
+        }
+        .input-info {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="site-header">
+            <h1>Site Name</h1>
+            <h2>Discus</h2>
+        </header>
+
+        <main>
+            <div class="welcome-info">
+                Welcome back, <span id="current-user">{USER}</span><br>
+                2025/08/01
+            </div>
+
+            <div id="chat-container" class="chat-container">
+                <div class="message">
+                    <div class="message-header">User2</div>
+                    <div class="message-meta">Created on 20250801 1700</div>
+                    <p class="message-body">Good Day Guys</p>
+                </div>
+                <div class="message">
+                    <div class="message-header">AdminK</div>
+                    <div class="message-meta">Created on 20250801 1659</div>
+                    <p class="message-body">Be polite, otherwise comment will be deleted.</p>
+                </div>
+                <div class="message deleted-message">
+                    <div class="message-header">BadGuy</div>
+                    <div class="message-meta">Created on 20250801 1635</div>
+                    <p class="message-body">{Comment Deleted by AdminK}</p>
+                </div>
+                <div class="message">
+                    <div class="message-header">User2</div>
+                    <div class="message-meta">Created on 20250801 1600</div>
+                    <p class="message-body">No one here?</p>
+                </div>
+            </div>
+
+            <div class="dm-option">
+                <input type="checkbox" id="dm-checkbox">
+                <label for="dm-checkbox">Only sent to Admin (DM)</label>
+            </div>
+
+            <form id="chat-form" class="chat-input-bar">
+                <input type="text" id="message-input" placeholder="輸入訊息..." required>
+                <button type="submit" class="send-btn">
+                    <div class="send-icon-plane"></div>
+                </button>
+            </form>
+            <p class="input-info">Sent as @{USER}, no more than 200 words, limited message enabled (?)</p>
+
+        </main>
+
+        <footer class="footer">
+            Copyright 2025 HWS, ALL RIGHTS RESERVED<br>
+            Page Discuss User
+        </footer>
+    </div>
+
+    <script>
+        // 等待 HTML 頁面完全載入
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- 1. 獲取需要的 HTML 元素 ---
+            const chatForm = document.getElementById('chat-form');
+            const messageInput = document.getElementById('message-input');
+            const chatContainer = document.getElementById('chat-container');
+            const dmCheckbox = document.getElementById('dm-checkbox');
+            const currentUserSpan = document.getElementById('current-user');
+            
+            // 獲取當前用戶名，這裡我們先寫死為 {USER}
+            const currentUsername = currentUserSpan.textContent.trim();
+
+            // --- 2. 監聽表單的提交事件 ---
+            chatForm.addEventListener('submit', function(event) {
+                // **重要**：阻止表單提交導致頁面重新整理
+                event.preventDefault();
+
+                // 獲取輸入框中的文字，並用 trim() 去除前後空格
+                const messageText = messageInput.value.trim();
+
+                // 如果訊息為空，則不執行任何操作
+                if (messageText === '') {
+                    return;
+                }
+
+                // 檢查 DM 核取方塊是否被勾選
+                const isDM = dmCheckbox.checked;
+
+                // --- 3. 創建新訊息 ---
+                // 獲取當前的日期和時間
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const timestamp = `Created on ${year}${month}${day} ${hours}${minutes}`;
+
+                // 創建新的訊息 HTML 元素
+                const newMessageDiv = document.createElement('div');
+                newMessageDiv.className = 'message';
+
+                // 根據是否為 DM 訊息，決定用戶名的顯示方式
+                const displayName = isDM ? `${currentUsername} (DM to Admin)` : currentUsername;
+                
+                newMessageDiv.innerHTML = `
+                    <div class="message-header">${displayName}</div>
+                    <div class="message-meta">${timestamp}</div>
+                    <p class="message-body">${messageText}</p>
+                `;
+
+                // --- 4. 將新訊息加入聊天室並清空輸入框 ---
+                chatContainer.appendChild(newMessageDiv);
+
+                // 將輸入框清空，方便輸入下一則訊息
+                messageInput.value = '';
+
+                // 自動將聊天室捲動到最底部，以顯示最新的訊息
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            });
+        });
+    </script>
+</body>
+</html>

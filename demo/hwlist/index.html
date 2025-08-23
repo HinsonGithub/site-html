@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入</title>
+    <style>
+        /* --- 全局和通用样式 --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-container {
+            max-width: 400px;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .site-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .site-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .site-header p {
+            font-size: 1.1em;
+            color: #555;
+            margin: 5px 0 0;
+        }
+
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 0.8em;
+            margin-top: 20px;
+        }
+
+        /* --- 登录/注册页面样式 --- */
+        .login-register-container {
+            background-color: #FFAA7A; /* 橙色背景 */
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .login-register-container h2 {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-top: 0;
+        }
+
+        .login-register-container .info-text {
+            font-size: 0.9em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* 新增：登入提示的樣式 */
+        .login-hint {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 25px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #1ed760; /* 绿色按钮 */
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #1ac859;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="page-container login-register-container">
+        <header class="site-header">
+            <h1>Site Name</h1>
+            <p>Custom Text.</p>
+        </header>
+
+        <main>
+            <form id="login-form">
+                <h2>Login/ Register</h2>
+                <p class="info-text">Unregistered username with filled correct invitation code will be auto register</p>
+                
+                <div class="login-hint">
+                    <b>測試提示：</b><br>
+                    管理員帳號 (Admin), 密碼 (Password): 123<br>
+                    普通用戶帳號 (User), 密碼 (Password): 123
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password">
+                </div>
+
+                <div class="form-group">
+                    <label for="invitation_code">Invitation code</label>
+                    <input type="text" id="invitation_code" placeholder="Only new register user are REQUIRED to fill">
+                </div>
+                
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </main>
+
+        <footer class="footer">
+            Copyright 2025 HWS, ALL RIGHTS RESERVED<br>
+            Page Login
+        </footer>
+    </div>
+
+    <script>
+        // 等待 HTML 頁面完全載入後再執行
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 獲取我們需要的 HTML 元素
+            const loginForm = document.getElementById('login-form');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+
+            // 為登入表單添加 'submit' 事件監聽
+            loginForm.addEventListener('submit', function(event) {
+                
+                // **重要**：阻止表單的預設提交行為，這樣頁面才不會重新整理
+                event.preventDefault();
+
+                // 獲取使用者輸入的帳號和密碼，並用 trim() 去除前後多餘的空格
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                // 檢查帳號和密碼是否匹配
+                if (username === 'Admin' && password === '123') {
+                    // 如果是 Admin
+                    alert('管理員登入成功！正在前往管理員頁面...');
+                    // 將頁面重新導向到 admin/index.html
+                    window.location.href = 'admin/index.html';
+
+                } else if (username === 'User' && password === '123') {
+                    // 如果是 User
+                    alert('用戶登入成功！正在前往用戶頁面...');
+                    // 將頁面重新導向到 user/index.html
+                    window.location.href = 'user/index.html';
+
+                } else {
+                    // 如果帳號或密碼錯誤
+                    alert('用戶名或密碼錯誤，請重試！');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

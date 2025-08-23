@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Settings Admin (Live Edit)</title>
+    <style>
+        /* --- 通用樣式 --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .page-container {
+            max-width: 400px;
+            width: 100%;
+        }
+        .site-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .site-header h2 {
+            font-size: 1.5em;
+            margin: 5px 0 0;
+            color: #333;
+        }
+        .welcome-info {
+            font-size: 1em;
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 20px;
+        }
+        .section-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 0;
+        }
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 0.8em;
+            margin-top: 40px;
+        }
+
+        /* --- 用戶列表與編輯介面樣式 --- */
+        .user-list-container {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 10px;
+            min-height: 200px;
+        }
+        .user-list-header {
+            display: flex;
+            padding: 0 5px 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+        .user-list-header .col-name {
+            flex-grow: 1;
+        }
+        .user-list {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .user-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1em;
+        }
+        .user-row .col-name {
+            flex-grow: 1;
+        }
+        .user-row .col-role {
+             width: 60px;
+        }
+        .dots-menu {
+            font-weight: bold;
+            cursor: pointer;
+            letter-spacing: 2px;
+            padding: 0 10px;
+            user-select: none;
+        }
+
+        /* 編輯表單樣式 */
+        .user-edit-form {
+            background-color: #FFAA7A;
+            border-radius: 20px;
+            padding: 20px;
+            color: #000;
+            margin-top: 10px;
+        }
+        .edit-row {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .edit-row .label {
+            font-weight: bold;
+        }
+        /* 新增：輸入框的樣式 */
+        .edit-row .value-input {
+            width: 100%;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .edit-row .value-display {
+            font-weight: normal;
+        }
+
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+        }
+        .btn-blue {
+            background-color: #007bff;
+        }
+        .btn-red {
+            background-color: #d9534f;
+        }
+        
+        .hidden {
+            display: none;
+        }
+			/* 用於隱藏元素的輔助 class */
+			.hidden {
+    			display: none;
+			}
+
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="site-header">
+            <h1>Site Name</h1>
+            <h2>User details</h2>
+        </header>
+
+        <main>
+            <div class="welcome-info">
+                Welcome back, AdminK<br>
+                2025/08/01
+            </div>
+
+            <div class="section-header">
+                <h3 class="section-title">Users</h3>
+            </div>
+
+            <div class="user-list-container">
+                <div class="user-list-header">
+                    <span class="col-name">Name</span>
+                    <span class="col-role">Role</span>
+                </div>
+                <div id="user-list" class="user-list">
+                    </div>
+
+                <div id="edit-form-wrapper" class="hidden">
+                    <div class="user-edit-form">
+                        <div class="edit-row">
+                            <span class="label">Name</span>
+                            <input type="text" id="edit-name" class="value-input">
+                        </div>
+                        <div class="edit-row">
+                            <span class="label">Handle</span>
+                            <input type="text" id="edit-handle" class="value-input">
+                        </div>
+                        <div class="edit-row">
+                            <span class="label">Role</span>
+                            <span id="edit-role" class="value-display"></span>
+                        </div>
+                        <div class="edit-row">
+                            <span class="label">Password</span>
+                             <input type="password" id="edit-password" class="value-input" placeholder="輸入新密碼">
+                        </div>
+                        <div class="button-group">
+                            <button id="confirm-btn" class="btn btn-blue">Confirm</button>
+                            <button id="delete-btn" class="btn btn-red">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="footer">
+            Copyright 2025 HWS, ALL RIGHTS RESERVED<br>
+            Page User SETTING Admin
+        </footer>
+    </div>
+
+    <script>
+        // 1. 預設用戶資料
+        const users = [
+            { id: 1, name: 'AdminK', handle: '@AdminK', role: 'Admin' },
+            { id: 2, name: 'User1', handle: '@User1', role: 'User' },
+            { id: 3, name: 'User2', handle: '@User2', role: 'User' },
+            { id: 4, name: 'QZX', handle: '@QZX', role: 'User' },
+            { id: 5, name: 'BadGuy', handle: '@BadGuy', role: 'User' }
+        ];
+
+        // 用於追蹤正在編輯的用戶 ID
+        let currentlyEditingUserId = null;
+
+        // 2. 獲取 HTML 元素
+        const userListDiv = document.getElementById('user-list');
+        const editFormWrapper = document.getElementById('edit-form-wrapper');
+        const userListHeader = document.querySelector('.user-list-header');
+
+        // 編輯表單中的輸入框
+        const editNameInput = document.getElementById('edit-name');
+        const editHandleInput = document.getElementById('edit-handle');
+        const editPasswordInput = document.getElementById('edit-password');
+        const editRoleDisplay = document.getElementById('edit-role');
+        
+        const confirmBtn = document.getElementById('confirm-btn');
+        const deleteBtn = document.getElementById('delete-btn');
+
+        // 3. 功能函式
+
+        // 函式：產生用戶列表
+        function renderUserList() {
+            userListDiv.innerHTML = '';
+            users.forEach(user => {
+                const userRow = document.createElement('div');
+                userRow.className = 'user-row';
+                userRow.innerHTML = `
+                    <span class="col-name">${user.name}</span>
+                    <span class="col-role">${user.role}</span>
+                    <span class="dots-menu" data-id="${user.id}">···</span>
+                `;
+                userListDiv.appendChild(userRow);
+            });
+        }
+
+        // 函式：顯示編輯表單
+        function showEditForm(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+
+            // 記錄正在編輯的用戶 ID
+            currentlyEditingUserId = user.id;
+
+            // 將用戶資料填入輸入框
+            editNameInput.value = user.name;
+            editHandleInput.value = user.handle;
+            editRoleDisplay.textContent = user.role; // Role 為純顯示
+            editPasswordInput.value = ''; // 密碼框保持空白
+
+            userListDiv.classList.add('hidden');
+            userListHeader.classList.add('hidden');
+            editFormWrapper.classList.remove('hidden');
+        }
+
+        // 函式：隱藏編輯表單
+        function hideEditForm() {
+            currentlyEditingUserId = null; // 清除正在編輯的 ID
+            editFormWrapper.classList.add('hidden');
+            userListDiv.classList.remove('hidden');
+            userListHeader.classList.remove('hidden');
+        }
+
+        // --- 4. 設定事件監聽 ---
+
+        document.addEventListener('DOMContentLoaded', renderUserList);
+
+        userListDiv.addEventListener('click', function(event) {
+            if (event.target.classList.contains('dots-menu')) {
+                const userId = parseInt(event.target.getAttribute('data-id'));
+                showEditForm(userId);
+            }
+        });
+
+        // 修改：Confirm 按鈕的邏輯
+        confirmBtn.addEventListener('click', function() {
+            if (currentlyEditingUserId === null) return;
+
+            // 從 users 陣列中找到正在編輯的用戶
+            const userToUpdate = users.find(u => u.id === currentlyEditingUserId);
+
+            // 從輸入框獲取新值並更新到該用戶的資料上
+            userToUpdate.name = editNameInput.value;
+            userToUpdate.handle = editHandleInput.value;
+            // 密碼在此範例中不做處理，但可以在這裡添加更新密碼的邏輯
+
+            alert('用戶資料已更新！');
+            
+            // 隱藏表單
+            hideEditForm();
+            
+            // **重要：重新產生一次列表，讓修改的內容即時顯示在畫面上**
+            renderUserList();
+        });
+
+        // 修改：Delete Account 按鈕的邏輯
+        deleteBtn.addEventListener('click', function() {
+            if (currentlyEditingUserId === null) return;
+
+            // 找到要刪除的用戶在陣列中的位置 (index)
+            const userIndexToDelete = users.findIndex(u => u.id === currentlyEditingUserId);
+            
+            if (userIndexToDelete > -1) {
+                // 從陣列中移除該用戶
+                users.splice(userIndexToDelete, 1);
+            }
+
+            alert('用戶已刪除！');
+            hideEditForm();
+            renderUserList(); // 重新產生列表以反映刪除
+        });
+
+    </script>
+</body>
+</html>

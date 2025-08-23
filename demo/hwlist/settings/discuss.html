@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discuss Settings (Interactive)</title>
+    <style>
+        /* --- 通用樣式 --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .page-container {
+            max-width: 400px;
+            width: 100%;
+        }
+        .site-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .site-header h2 {
+            font-size: 1.5em;
+            margin: 5px 0 0;
+            color: #333;
+        }
+        .welcome-info {
+            font-size: 1em;
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 20px 0 0;
+        }
+        .section-title small {
+            display: block;
+            font-size: 0.7em;
+            font-weight: normal;
+            color: #666;
+        }
+        .info-text {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1em;
+            color: #555;
+            line-height: 1.5;
+        }
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 0.8em;
+            margin-top: 40px;
+        }
+
+        /* --- 組件樣式 --- */
+        .settings-group {
+            margin-top: 15px;
+        }
+        .settings-box {
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .settings-box.gray {
+            background-color: #f0f0f0;
+        }
+        .settings-box.red {
+            background-color: #d9534f;
+            color: white;
+            text-align: center;
+        }
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* 垂直置中 */
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .settings-row:last-child {
+            margin-bottom: 0;
+        }
+        .settings-row .label {
+            font-weight: normal;
+        }
+        .limited-mode-box {
+            font-size: 1.5em;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+        .blocked-user-box {
+            color: #666;
+            text-align: center;
+        }
+
+        /* --- 新增：互動式開關的樣式 --- */
+        .toggle-switch {
+            width: 80px;
+            padding: 8px 0;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            user-select: none;
+        }
+        .toggle-switch.is-on {
+            background-color: #1ed760; /* 綠色 */
+            color: white;
+        }
+        .toggle-switch.is-off {
+            background-color: #ccc; /* 灰色 */
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="site-header">
+            <h1>Site Name</h1>
+            <h2>Discuss</h2>
+        </header>
+
+        <main>
+            <div class="welcome-info">
+                Welcome back, AdminK<br>
+                2025/08/01
+            </div>
+
+            <h3 class="section-title">
+                Discuss
+                <small>(Standard Plan not included this)</small>
+            </h3>
+            <div class="settings-group">
+                <div class="settings-box gray">
+                    <div class="settings-row">
+                        <span class="label">Status</span>
+                        <div id="status-toggle" class="toggle-switch">ON</div>
+                    </div>
+                    <div class="settings-row">
+                        <span class="label">DM</span>
+                        <div id="dm-toggle" class="toggle-switch">ON</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="section-title">Limited Mode</h3>
+            <div class="settings-group">
+                <div class="settings-box red limited-mode-box">
+                    200 Words<br>
+                    1 massage/1 minute(s)
+                </div>
+            </div>
+
+            <h3 class="section-title">Blocked User</h3>
+            <div class="settings-group">
+                <div class="settings-box gray blocked-user-box">
+                    No one added to this list<br>
+                    (feature unavailable)
+                </div>
+            </div>
+            
+            <div class="info-text">
+                Change Limited mode are only able to edit by discuss dev team please find us for more
+            </div>
+        </main>
+
+        <footer class="footer">
+            Copyright 2025 HWS, ALL RIGHTS RESERVED<br>
+            Page DISCUSS SETTING Admin
+        </footer>
+    </div>
+
+    <script>
+        // --- 1. 用一個物件來儲存目前的設定狀態 ---
+        // true 代表 ON, false 代表 OFF
+        let settings = {
+            status: true,
+            dm: true
+        };
+
+        // --- 2. 獲取要操作的 HTML 元素 ---
+        const statusToggle = document.getElementById('status-toggle');
+        const dmToggle = document.getElementById('dm-toggle');
+
+        // --- 3. 核心功能函式 ---
+
+        // 函式：根據 settings 物件的狀態來更新畫面上開關的樣子
+        function updateUI() {
+            // 更新 Status 開關
+            if (settings.status) {
+                statusToggle.textContent = 'ON';
+                statusToggle.classList.add('is-on');
+                statusToggle.classList.remove('is-off');
+            } else {
+                statusToggle.textContent = 'OFF';
+                statusToggle.classList.add('is-off');
+                statusToggle.classList.remove('is-on');
+            }
+
+            // 更新 DM 開關
+            if (settings.dm) {
+                dmToggle.textContent = 'ON';
+                dmToggle.classList.add('is-on');
+                dmToggle.classList.remove('is-off');
+            } else {
+                dmToggle.textContent = 'OFF';
+                dmToggle.classList.add('is-off');
+                dmToggle.classList.remove('is-on');
+            }
+        }
+
+
+        // --- 4. 設定事件監聽 ---
+
+        // 監聽 Status 開關的點擊事件
+        statusToggle.addEventListener('click', function() {
+            // 將目前的狀態反轉 (true 變 false, false 變 true)
+            settings.status = !settings.status;
+            // 提示一下目前狀態（此為範例，可移除）
+            alert('Status is now ' + (settings.status ? 'ON' : 'OFF'));
+            // 呼叫更新函式，讓畫面產生變化
+            updateUI();
+        });
+
+        // 監聽 DM 開關的點擊事件
+        dmToggle.addEventListener('click', function() {
+            settings.dm = !settings.dm;
+            alert('DM is now ' + (settings.dm ? 'ON' : 'OFF'));
+            updateUI();
+        });
+
+        // --- 5. 初始載入 ---
+        // 頁面第一次載入時，立即執行一次 updateUI，確保開關的初始外觀正確
+        document.addEventListener('DOMContentLoaded', updateUI);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings User</title>
+    <style>
+        /* --- 通用樣式 --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .page-container {
+            max-width: 400px;
+            width: 100%;
+        }
+        .site-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .site-header h2 {
+            font-size: 1.5em;
+            margin: 5px 0 0;
+            color: #333;
+        }
+        .welcome-info {
+            font-size: 1em;
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .info-text {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1em;
+            color: #555;
+            line-height: 1.5;
+        }
+        .info-text strong {
+            display: block;
+            margin-top: 10px;
+            color: #000;
+        }
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 0.8em;
+            margin-top: 40px;
+        }
+
+        /* --- 組件樣式 --- */
+        .info-box {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            padding: 20px;
+            font-size: 1.2em;
+            line-height: 1.8;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px 20px;
+        }
+        .info-box .label {
+            font-weight: normal;
+            color: #333;
+        }
+        .info-box .value {
+            font-weight: bold;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="site-header">
+            <h1>Site Name</h1>
+            <h2>Account Settings</h2>
+        </header>
+
+        <main>
+            <div class="welcome-info">
+                Welcome back, {USER}<br>
+                2025/08/01
+            </div>
+
+            <h3 class="section-title">Account</h3>
+
+            <div class="info-box">
+                <span class="label">Name:</span><span class="value">{USER}</span>
+                <span class="label">Handle:</span><span class="value">@{USER}</span>
+                <span class="label">Plan:</span><span class="value">UNLIMITED</span>
+            </div>
+
+            <div class="info-text">
+                Only admins can edit details, user are not able to edit anythings due to system settings.
+                <strong>TELL ADMIN TO EDIT YOUR DETAILS IF NEEDED</strong>
+            </div>
+        </main>
+
+        <footer class="footer">
+            Copyright 2025 HWS, ALL RIGHTS RESERVED<br>
+            Page AC SETTING User
+        </footer>
+    </div>
+</body>
+</html>
