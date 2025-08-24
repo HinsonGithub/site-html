@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin DM</title>
+    <title>Admin DM (Interactive)</title>
     <style>
         /* --- 通用樣式 --- */
         body {
@@ -23,30 +23,11 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             border-radius: 10px;
         }
-        .site-header {
-            margin-bottom: 20px;
-        }
-        .site-header h1 {
-            font-size: 2.5em;
-            margin: 0;
-            text-align: center;
-        }
-        .site-header h2 {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
-            margin: 0;
-        }
-        .welcome-info {
-            font-size: 1em;
-            color: #555;
-        }
-        .footer {
-            text-align: center;
-            color: #888;
-            font-size: 0.8em;
-            margin-top: 20px;
-        }
+        .site-header { margin-bottom: 20px; }
+        .site-header h1 { font-size: 2.5em; margin: 0; text-align: center; }
+        .site-header h2 { font-size: 1.2em; font-weight: bold; color: #333; margin: 0; }
+        .welcome-info { font-size: 1em; color: #555; }
+        .footer { text-align: center; color: #888; font-size: 0.8em; margin-top: 20px; }
 
         /* --- 聊天/討論區樣式 --- */
         .chat-container {
@@ -54,82 +35,63 @@
             border-radius: 20px;
             padding: 15px;
             margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
         }
         .message {
             margin-bottom: 15px;
+            transition: opacity 0.3s ease;
         }
-        .message-header {
-            font-size: 1.1em;
-            font-weight: bold;
-        }
-        .message-header .delete-link {
-            font-size: 0.9em;
-            font-weight: normal;
-            color: #007bff;
-            text-decoration: none;
-            margin-left: 5px;
-        }
-        .message-meta {
-            font-size: 0.8em;
-            color: #777;
-        }
-        .message-body {
-            margin: 5px 0 0;
-            font-size: 1em;
-            line-height: 1.4;
-        }
-        .deleted-message .message-meta {
-            color: #d9534f; /* 紅色 */
-        }
-        .deleted-message .message-body {
-            color: #d9534f; /* 紅色 */
-            font-style: italic;
-        }
-        .dm-redirect-link {
-            font-size: 0.9em;
-            color: #555;
-            margin-top: 15px;
-        }
-        .dm-redirect-link a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
+        .message-header { font-size: 1.1em; font-weight: bold; }
+        .message-header .delete-link { font-size: 0.9em; font-weight: normal; color: #007bff; text-decoration: none; margin-left: 5px; }
+        .message-meta { font-size: 0.8em; color: #777; }
+        .message-body { margin: 5px 0 0; font-size: 1em; line-height: 1.4; white-space: pre-wrap; word-wrap: break-word; }
+        .deleted-message .message-body { color: #d9534f; font-style: italic; }
+
+        /* 聊天輸入框的樣式 */
         .chat-input-bar {
-            background-color: #1ed760; /* 綠色 */
-            color: white;
+            background-color: #1ed760;
             border-radius: 25px;
-            padding: 10px 15px;
             margin-top: 15px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            cursor: pointer;
+            padding: 5px 5px 5px 20px;
         }
-        .chat-input-text {
-            font-size: 0.9em;
+        #message-input {
+            flex-grow: 1;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 1em;
+            outline: none;
         }
-        .chat-input-text small {
-            display: block;
-            font-size: 0.8em;
-            opacity: 0.9;
-        }
-        .send-icon {
-            width: 30px;
-            height: 30px;
-            background-color: white;
+        #message-input::placeholder { color: rgba(255, 255, 255, 0.8); }
+        .send-btn {
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 10px;
         }
         .send-icon-plane {
             width: 0;
             height: 0;
             border-style: solid;
-            border-width: 0 12px 12px 12px;
+            border-width: 0 14px 14px 14px;
             border-color: transparent transparent #1ed760 transparent;
-            transform: rotate(45deg) translate(-2px, 2px);
+            transform: rotate(45deg) translate(-3px, 3px);
+        }
+        .input-info {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 5px;
+            text-align: center;
         }
     </style>
 </head>
@@ -142,11 +104,11 @@
 
         <main>
             <div class="welcome-info">
-                Welcome back, AdminK<br>
+                Welcome back, <span id="current-user">AdminK</span><br>
                 2025/08/01
             </div>
 
-            <div class="chat-container">
+            <div id="chat-container" class="chat-container">
                 <div class="message">
                     <div class="message-header">User2 <a href="#" class="delete-link">[Delete Message as AdminK]</a></div>
                     <div class="message-meta">Created on 20250801 1700</div>
@@ -168,16 +130,15 @@
                     <p class="message-body">Request password change.</p>
                 </div>
             </div>
-
-            <div class="chat-input-bar">
-                <div class="chat-input-text">
-                    Sent as @AdminK, Tap to enter.
-                    <small>No more than 200 words, limited message enabled (?)</small>
-                </div>
-                <div class="send-icon">
+            
+            <form id="chat-form" class="chat-input-bar">
+                <input type="text" id="message-input" placeholder="以 @AdminK 的身份發言..." required>
+                <button type="submit" class="send-btn">
                     <div class="send-icon-plane"></div>
-                </div>
-            </div>
+                </button>
+            </form>
+            <p class="input-info">No more than 200 words, limited message enabled (?)</p>
+
         </main>
 
         <footer class="footer">
@@ -185,5 +146,49 @@
             Page Discuss Admin DM
         </footer>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatForm = document.getElementById('chat-form');
+            const messageInput = document.getElementById('message-input');
+            const chatContainer = document.getElementById('chat-container');
+            const currentUsername = document.getElementById('current-user').textContent.trim();
+
+            // --- 處理發送訊息 ---
+            chatForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const messageText = messageInput.value.trim();
+                if (messageText === '') return;
+
+                const now = new Date();
+                const timestamp = `Created on ${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
+                
+                const newMessageDiv = document.createElement('div');
+                newMessageDiv.className = 'message';
+                newMessageDiv.innerHTML = `
+                    <div class="message-header">${currentUsername} <a href="#" class="delete-link">[Delete Message as ${currentUsername}]</a></div>
+                    <div class="message-meta">${timestamp}</div>
+                    <p class="message-body">${messageText}</p>
+                `;
+                
+                chatContainer.appendChild(newMessageDiv);
+                messageInput.value = '';
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            });
+
+            // --- 處理刪除訊息 ---
+            chatContainer.addEventListener('click', function(event) {
+                if (event.target.classList.contains('delete-link')) {
+                    event.preventDefault();
+                    const messageToDelete = event.target.closest('.message');
+                    if (messageToDelete) {
+                        messageToDelete.style.opacity = '0';
+                        setTimeout(() => {
+                            messageToDelete.remove();
+                        }, 300);
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
