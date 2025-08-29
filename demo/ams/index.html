@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assets Management System (Demo)</title>
+    <style>
+        /* CSS 樣式與線上版本完全相同 */
+        :root { --primary-color: #007bff; --light-gray: #f4f7f9; --border-color: #ddd; }
+        @keyframes highlight { from { background-color: #d1ecf1; } to { background-color: transparent; } }
+        .highlight-row { animation: highlight 2s ease-out; }
+        .scanner-modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 500px; border-radius: 8px; text-align: center; }
+        #qr-video { width: 100%; height: 100%; border-radius: 8px; }
+        body, h1, h2, p, ul, table { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #333; }
+        body { background-color: var(--light-gray); }
+        .container { display: flex; max-width: 1600px; margin: 20px auto; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden; }
+        .sidebar { width: 250px; background-color: #e9ecef; padding: 20px; border-right: 1px solid var(--border-color); flex-shrink: 0; }
+        .sidebar h2 { margin-bottom: 20px; font-size: 1.2em; color: #555; }
+        .sidebar ul { list-style: none; }
+        .sidebar li { padding: 12px 15px; margin-bottom: 8px; background-color: #fff; border-radius: 5px; cursor: pointer; transition: background-color 0.2s, color 0.2s; font-size: 0.95em; }
+        .sidebar li:hover, .sidebar li.active { background-color: var(--primary-color); color: #fff; }
+        .main-content { flex-grow: 1; padding: 20px 30px; overflow-x: auto; }
+        .header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
+        .header .header-left { display: flex; align-items: center; }
+        .header h1 { font-size: 1.8em; margin-left: 10px; }
+        .header .buttons { display: flex; gap: 10px; }
+        #menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        #menu-toggle .bar { display: block; width: 25px; height: 3px; background-color: #333; margin: 5px 0; transition: 0.3s; }
+        .action-button { background-color: #28a745; color: white; padding: 10px 18px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: background-color 0.2s; white-space: nowrap; }
+        .action-button:hover { background-color: #218838; }
+        .action-button:disabled { background-color: #a5d6a7; cursor: not-allowed; }
+        .toolbar { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; }
+        .toolbar input, .toolbar select { padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1em; }
+        .toolbar input { flex-grow: 1; min-width: 200px; }
+        .item-table { width: 100%; border-collapse: collapse; }
+        .item-table th, .item-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+        .item-table th { background-color: #f8f9fa; font-weight: bold; color: #495057; }
+        .item-table tr:hover { background-color: #f1f3f5; }
+        .item-table .actions a { text-decoration: none; margin-right: 15px; cursor: pointer; }
+        .item-table .actions a:hover { text-decoration: underline; }
+        .notes-cell { white-space: normal; min-width: 200px; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 500px; border-radius: 8px; }
+        .close-button { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        #modal-item-id-display { background-color: #eee; padding: 5px 8px; border-radius: 4px; font-family: monospace; color: #555; }
+        .modal-form label { display: block; margin-top: 10px; font-weight: bold; }
+        .modal-form input, .modal-form select, .modal-form textarea { width: calc(100% - 20px); padding: 8px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc; }
+        .modal-form .container-selector { display: flex; align-items: center; gap: 10px; }
+        .modal-form .container-selector select { flex-grow: 1; }
+        .modal-form button { margin-top: 20px; }
+        @media (max-width: 768px) {
+            .container { flex-direction: column; margin: 0; border-radius: 0; }
+            .sidebar { position: fixed; left: 0; top: 0; height: 100%; z-index: 1100; transform: translateX(-100%); transition: transform 0.3s ease-in-out; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
+            .sidebar.active { transform: translateX(0); }
+            #menu-toggle { display: block; }
+            .main-content { padding: 15px; }
+            .item-table thead { display: none; }
+            .item-table tr { display: block; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+            .item-table td { display: block; text-align: right; position: relative; padding: 8px 0 8px 100px; border-bottom: 1px solid #eee; white-space: normal; }
+            .item-table td:last-child { border-bottom: none; }
+            .item-table td::before { content: attr(data-label); position: absolute; left: 0; width: 90px; font-weight: bold; text-align: left; white-space: nowrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <h2>容器/位置</h2>
+            <ul id="container-list"></ul>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button id="menu-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+                    <h1>Assets Management System</h1>
+                </div>
+                <div class="buttons">
+                    <button class="action-button" id="main-scan-btn" style="background-color: var(--primary-color);">📷 主頁掃描</button>
+                    <button class="action-button" id="add-item-btn">＋ 新增資產</button>
+                </div>
+            </header>
+            <div class="toolbar">
+                <input type="text" id="search-input" placeholder="🔍 搜尋資產名稱、備註..."><select id="category-filter"><option value="">所有分類</option><option value="電子產品">電子產品</option><option value="重要文件">重要文件</option><option value="家居用品">家居用品</option><option value="工具">工具</option></select>
+            </div>
+            <table class="item-table">
+                <thead>
+                    <tr><th>資產名稱</th><th>分類</th><th>數量</th><th class="notes-cell">備註</th><th>新增日期</th><th>操作</th></tr>
+                </thead>
+                <tbody id="item-table-body"></tbody>
+            </table>
+        </main>
+    </div>
+
+    <div id="item-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-item-modal-btn">&times;</span><h2 id="modal-title"></h2><p>ID: <strong id="modal-item-id-display"></strong></p><hr style="margin: 10px 0;"><form id="item-form" class="modal-form"><input type="hidden" id="item-id"><label for="item-name">資產名稱:</label><input type="text" id="item-name" required><label for="item-category">分類:</label><select id="item-category"><option value="電子產品">電子產品</option><option value="重要文件">重要文件</option><option value="家居用品">家居用品</option><option value="工具">工具</option><option value="其他">其他</option></select><label for="item-quantity">數量:</label><input type="number" id="item-quantity" value="1" min="1" required><label for="item-container">所在容器:</label><div class="container-selector"><select id="item-container" required></select><button type="button" class="action-button" id="form-scan-btn">📷 掃描</button></div><label for="item-notes">備註:</label><textarea id="item-notes" rows="3"></textarea><button type="submit" class="action-button" id="modal-submit-btn"></button></form>
+        </div>
+    </div>
+
+    <div id="scanner-modal" class="modal">
+        <div class="scanner-modal-content">
+            <span class="close-button" id="close-scanner-modal-btn">&times;</span><h2>QR Code 掃描器</h2><p>請將 QR Code 置於相機畫面中</p><video id="qr-video"></video>
+        </div>
+    </div>
+    
+    <script type="module">
+        import QrScanner from "https://cdn.jsdelivr.net/npm/qr-scanner@1.4.2/qr-scanner.min.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // ===================================
+            // 1. 本地範例資料 (Local Sample Data)
+            // ===================================
+            let containers = [
+                { id: 'C_1', name: '📚 書房儲物櫃' },
+                { id: 'C_2', name: '📦 車庫3號收納箱' },
+                { id: 'C_3', name: '🗄️ 客廳電視櫃' }
+            ];
+            let items = [
+                { id: 'I_1724900400000', name: 'MacBook Pro 14"', category: '電子產品', quantity: 1, notes: 'M3 Pro 晶片, 18GB RAM', containerId: 'C_1', createdAt: new Date('2025-08-29T11:00:00') },
+                { id: 'I_1724904000000', name: '護照與身分證', category: '重要文件', quantity: 2, notes: '放置在藍色文件袋中', containerId: 'C_1', createdAt: new Date('2025-08-29T12:00:00') },
+                { id: 'I_1724907600000', name: 'Bosch 電鑽工具組', category: '工具', quantity: 1, notes: '包含所有鑽頭配件', containerId: 'C_2', createdAt: new Date('2025-08-29T13:00:00') },
+                { id: 'I_1724911200000', name: '電視與Apple TV遙控器', category: '電子產品', quantity: 2, notes: '常用電池為 AAA', containerId: 'C_3', createdAt: new Date('2025-08-29T14:00:00') }
+            ];
+
+            let currentContainerId = null, searchTerm = '', currentCategory = '', currentScanContext = null;
+            let qrScanner;
+
+            // ===================================
+            // 2. DOM 元素獲取
+            // ===================================
+            const containerList = document.getElementById('container-list');
+            const itemTableBody = document.getElementById('item-table-body');
+            const mainScanBtn = document.getElementById('main-scan-btn');
+            const searchInput = document.getElementById('search-input');
+            const categoryFilter = document.getElementById('category-filter');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const itemModal = document.getElementById('item-modal'), modalTitle = document.getElementById('modal-title'), modalSubmitBtn = document.getElementById('modal-submit-btn'), addItemBtn = document.getElementById('add-item-btn'), closeItemModalBtn = document.getElementById('close-item-modal-btn'), itemForm = document.getElementById('item-form'), itemContainerSelect = document.getElementById('item-container'), modalItemIdDisplay = document.getElementById('modal-item-id-display'), hiddenItemId = document.getElementById('item-id');
+            const formScanBtn = document.getElementById('form-scan-btn'), scannerModal = document.getElementById('scanner-modal'), closeScannerModalBtn = document.getElementById('close-scanner-modal-btn'), videoElem = document.getElementById('qr-video');
+
+            // ===================================
+            // 3. 渲染與格式化函式
+            // ===================================
+            const formatDate = (date) => new Date(date).toLocaleString('sv-SE').slice(0, 16).replace('T', ' ');
+
+            const renderContainers = () => {
+                containerList.innerHTML = '<li data-id="null" class="active">🏠 顯示所有資產</li>';
+                containers.forEach(c => containerList.innerHTML += `<li data-id="${c.id}">${c.name}</li>`);
+                itemContainerSelect.innerHTML = '';
+                if (containers.length > 0) {
+                    containers.forEach(c => itemContainerSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`);
+                }
+            };
+
+            const renderItems = () => {
+                let filteredItems = items;
+                if (currentContainerId) filteredItems = filteredItems.filter(item => item.containerId === currentContainerId);
+                if (searchTerm) filteredItems = filteredItems.filter(item => item.name.toLowerCase().includes(searchTerm) || item.notes.toLowerCase().includes(searchTerm));
+                if (currentCategory) filteredItems = filteredItems.filter(item => item.category === currentCategory);
+                itemTableBody.innerHTML = '';
+                if (filteredItems.length === 0) {
+                    itemTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;" data-label="">找不到符合條件的資產</td></tr>`;
+                    return;
+                }
+                filteredItems.forEach(item => {
+                    itemTableBody.innerHTML += `
+                        <tr data-item-id="${item.id}">
+                            <td data-label="資產名稱">${item.name}</td><td data-label="分類">${item.category}</td>
+                            <td data-label="數量">${item.quantity}</td><td data-label="備註" class="notes-cell">${item.notes}</td>
+                            <td data-label="新增日期">${formatDate(item.createdAt)}</td>
+                            <td data-label="操作" class="actions">
+                                <a href="#" class="edit-btn" data-id="${item.id}" style="color:#007bff;">編輯</a>
+                                <a href="#" class="delete-btn" data-id="${item.id}" style="color:#dc3545;">刪除</a>
+                            </td>
+                        </tr>`;
+                });
+            };
+
+            // ===================================
+            // 4. 掃描器與核心邏輯
+            // ===================================
+            const onScanSuccess = (result) => {
+                const decodedText = result.data;
+                stopScanner();
+                if (currentScanContext === 'main') handleMainScan(decodedText);
+                else if (currentScanContext === 'form') handleFormScan(decodedText);
+            };
+            const startScanner = (context) => { currentScanContext = context; scannerModal.style.display = 'block'; qrScanner = new QrScanner(videoElem, onScanSuccess, { highlightScanRegion: true, highlightCodeOutline: true }); qrScanner.start(); };
+            const stopScanner = () => { if (qrScanner) { qrScanner.stop(); qrScanner.destroy(); qrScanner = null; } scannerModal.style.display = 'none'; };
+            const handleMainScan = (qrValue) => { if (qrValue.startsWith('C_')) { const el = document.querySelector(`#container-list li[data-id="${qrValue}"]`); if (el) el.click(); else alert(`找不到容器 ID: ${qrValue}`); } else if (qrValue.startsWith('I_')) { const el = document.querySelector(`#item-table-body tr[data-item-id="${qrValue}"]`); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('highlight-row'); setTimeout(() => el.classList.remove('highlight-row'), 2000); } else { alert(`在目前列表中找不到資產 ID: ${qrValue} (請確認篩選條件)`); } } else { alert("無法識別的 ID 格式！"); } };
+            const handleFormScan = (qrValue) => { if (qrValue.startsWith('C_')) { const exists = containers.some(c => c.id === qrValue); if (exists) { itemContainerSelect.value = qrValue; alert(`已選定容器: ${qrValue}`); } else { alert(`找不到容器 ID: ${qrValue}`); } } else { alert("掃描到的不是容器 QR Code！"); } };
+
+            const openItemModal = (mode, itemId = null) => {
+                itemForm.reset();
+                if (mode === 'new') {
+                    hiddenItemId.value = ''; modalTitle.textContent = '新增資產'; modalSubmitBtn.textContent = '確認新增'; modalItemIdDisplay.textContent = '儲存後自動生成';
+                } else {
+                    const item = items.find(i => i.id === itemId);
+                    if (!item) return;
+                    hiddenItemId.value = item.id; modalTitle.textContent = '編輯資產'; modalSubmitBtn.textContent = '儲存變更'; modalItemIdDisplay.textContent = item.id;
+                    document.getElementById('item-name').value = item.name; document.getElementById('item-category').value = item.category; document.getElementById('item-quantity').value = item.quantity;
+                    document.getElementById('item-container').value = item.containerId; document.getElementById('item-notes').value = item.notes;
+                }
+                itemModal.style.display = 'block';
+            };
+
+            // ===================================
+            // 5. 事件監聽 (Event Listeners)
+            // ===================================
+            menuToggle.addEventListener('click', () => sidebar.classList.toggle('active'));
+            
+            containerList.addEventListener('click', (e) => {
+                if (e.target.tagName === 'LI') {
+                    currentContainerId = e.target.dataset.id === 'null' ? null : e.target.dataset.id;
+                    document.querySelectorAll('#container-list li').forEach(li => li.classList.remove('active'));
+                    e.target.classList.add('active');
+                    if (window.innerWidth <= 768) { sidebar.classList.remove('active'); }
+                    renderItems();
+                }
+            });
+
+            searchInput.addEventListener('input', (e) => { searchTerm = e.target.value.toLowerCase(); renderItems(); });
+            categoryFilter.addEventListener('change', (e) => { currentCategory = e.target.value; renderItems(); });
+
+            itemTableBody.addEventListener('click', (e) => {
+                const target = e.target;
+                if (target.classList.contains('edit-btn')) { openItemModal('edit', target.dataset.id); }
+                if (target.classList.contains('delete-btn')) {
+                    const idToDelete = target.dataset.id;
+                    if (confirm(`確定要刪除 ID 為 ${idToDelete} 的資產嗎？`)) {
+                        items = items.filter(item => item.id !== idToDelete);
+                        renderItems();
+                    }
+                }
+            });
+
+            itemForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = hiddenItemId.value;
+                const formData = { name: document.getElementById('item-name').value, category: document.getElementById('item-category').value, quantity: parseInt(document.getElementById('item-quantity').value, 10), containerId: document.getElementById('item-container').value, notes: document.getElementById('item-notes').value };
+                if (id) {
+                    let item = items.find(i => i.id === id);
+                    Object.assign(item, formData);
+                } else {
+                    items.push({ ...formData, id: 'I_' + Date.now(), createdAt: new Date() });
+                }
+                itemModal.style.display = 'none';
+                renderItems();
+            });
+            
+            addItemBtn.addEventListener('click', () => openItemModal('new'));
+            closeItemModalBtn.addEventListener('click', () => itemModal.style.display = 'none');
+            mainScanBtn.addEventListener('click', () => startScanner('main'));
+            formScanBtn.addEventListener('click', () => startScanner('form'));
+            closeScannerModalBtn.addEventListener('click', stopScanner);
+            window.addEventListener('click', (e) => { if (e.target == itemModal) itemModal.style.display = 'none'; if (e.target == scannerModal) stopScanner(); });
+
+            // ===================================
+            // 6. 初始載入 (Initial Load)
+            // ===================================
+            renderContainers();
+            renderItems();
+        });
+    </script>
+</body>
+</html>
